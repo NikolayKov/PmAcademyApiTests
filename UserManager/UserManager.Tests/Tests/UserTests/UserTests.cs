@@ -1,4 +1,6 @@
 using System;
+using System.Net;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using UserManager.Tests.Common.Api.Clients;
 using UserManager.Tests.Common.Api.Mock;
@@ -44,9 +46,12 @@ namespace UserManager.Tests.Tests.UserTests
             Mock.Get($"/api/users/{externalId}", userFakeResponse);
 
             // Act
-            var actualUser = UserManagerClient.GetUserById(id);
-            
+            var response = UserManagerClient.GetUserById(id);
+
             // Assert
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "StatusCode is incorrect");
+            var actualUser = JsonConvert.DeserializeObject<Common.Api.Contracts.User>(response.Content);
+
             Assert.AreEqual(expectedUser.Email, actualUser.Email, "Email is incorrect");
             Assert.AreEqual(expectedUser.FirstName, actualUser.FirstName, "FirstName is incorrect");
             Assert.AreEqual(expectedUser.LastName, actualUser.LastName, "LastName is incorrect");

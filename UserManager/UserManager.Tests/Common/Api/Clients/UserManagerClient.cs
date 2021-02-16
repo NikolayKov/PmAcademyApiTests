@@ -17,15 +17,13 @@ namespace UserManager.Tests.Common.Api.Clients
             return response;
         }
 
-        public static Api.Contracts.User GetUserById(string id)
+        public static IRestResponse GetUserById(string id)
         {
             var request = new RestRequest($"api/user/{id}", Method.GET);
 
             var response = RestSharpClient.GetInstance().ExecuteAsync(request).Result;
 
-            var user = JsonConvert.DeserializeObject<Api.Contracts.User>(response.Content);
-
-            return user;
+            return response;
         }
     }
 }
