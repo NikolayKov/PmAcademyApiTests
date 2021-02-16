@@ -27,15 +27,16 @@ namespace UserManager.Managers
                 LastName = lastName
             };
 
-            // Get data from external source
-            //var reqresUsers = _reqresApiClient.GetUsers().Result;
-            //if (reqresUsers.Any(ru => ru.Email == email))
-            //{
-            //    var reqUser = reqresUsers.FirstOrDefault(ru => ru.Email == email);
-            //    user.FirstName = reqUser.FirstName;
-            //    user.LastName = reqUser.LastName;
-            //    user.ExternalId = reqUser.Id;
-            //}
+            //Get data from external source
+
+           var reqresUsers = _reqresApiClient.GetUsers().Result;
+            if (reqresUsers.Any(ru => ru.Email == email))
+            {
+                var reqUser = reqresUsers.FirstOrDefault(ru => ru.Email == email);
+                user.FirstName = reqUser.FirstName;
+                user.LastName = reqUser.LastName;
+                user.ExternalId = reqUser.Id;
+            }
 
             try
             {
